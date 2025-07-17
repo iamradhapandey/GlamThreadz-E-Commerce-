@@ -22,3 +22,5 @@ export const Productitems = ({ id, image, name, price }) => {
     </Link>
   );
 };
+
+export default Productitems
