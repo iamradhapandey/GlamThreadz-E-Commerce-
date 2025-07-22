@@ -4,7 +4,7 @@ import Product from './Product';
 import Title from "../components/Title";
 import { assets } from '../assets/assets';
 import { CartTotal } from '../components/CartTotal';
-
+import { Link } from 'react-router-dom';
 const Cart = () => {
   const { products, currency, cartItems, updateQuantity , navigate} = useContext(ShopContext);
   const [cartData, setCartData] = useState([]);
@@ -49,6 +49,7 @@ const Cart = () => {
                 className='py-4 border-t border-b text-gray-700 grid grid-cols-[4fr_0.5fr_0.5fr] sm:grid-cols-[4fr_2fr_0.5fr] items-center gap-4'
               >
                 {/* Left Section: Product image and info */}
+                <Link to={`/product/${item._id}`} className='text-gray-700 cursor-pointer block'>
                 <div className='flex items-start gap-6'>
                   <img className='w-16 sm:w-20' src={productData?.image[0]} alt="" />
                   <div>
@@ -60,7 +61,8 @@ const Cart = () => {
                       <p className='px-2 sm: px-3 sm:py-1 border bg-slate-50'>{item.size}</p> {/* Selected size */}
                     </div>
                   </div>
-                </div>
+                </div></Link>
+                
 
                 {/* Middle Section: Quantity input */}
                 <input 
@@ -92,7 +94,7 @@ const Cart = () => {
         <div className='w-full sm:w-[450px]'>
           <CartTotal/>
           <div className='w-full text-end'>
-            <button onClick={()=> navigate('/place-order')} className='bg-black text-white text-sm my-8 px-8 py-3'>PROCEED TO CHECKOUT</button>
+            <button onClick={()=> navigate('/place-order')} className='bg-black text-white text-sm my-8 px-8 py-3 cursor-pointer'>PROCEED TO CHECKOUT</button>
           </div>
 
         </div>

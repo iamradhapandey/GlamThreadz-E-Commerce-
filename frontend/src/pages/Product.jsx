@@ -3,11 +3,16 @@ import { useParams } from "react-router-dom";
 import { ShopContext } from "../context/Shopcontext";
 import { products, assets } from "../assets/assets.js"; // ✅ Single line for both
 import RelatedProducts from "../components/RelatedProducts.jsx"; // ✅ Default export assumed
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+
 
 export const Product = () => {
   const { productId } = useParams() // <-- use lowercase 'p'
   const { products, currency , addToCart } = useContext(ShopContext)
   const [productData, setProductData] = useState(false)
+  const [isAdded, setIsAdded] = useState(false);
+  const navigate = useNavigate();
   const [image, setImage] = useState("")
   const [size, setSize] = useState("")
   const fetchProductData = async () => {
@@ -82,8 +87,20 @@ export const Product = () => {
               ))}
             </div>
           </div>
-          <button  onClick={()=> addToCart(productData._id,size)} className="bg-black text-white px-8 py-3 text-sm active:bg-gray-700">
-            ADD TO CART
+          <button  onClick={()=> {
+            if(!isAdded){
+              if(!size){
+                toast.error("Select the size!");
+                return ;
+              }
+              addToCart(productData._id, size);
+              toast.success("Product added to cart!");
+              setIsAdded(true);
+            }else{
+              navigate('/cart');
+            }
+          }} className="bg-black text-white px-8 py-3 text-sm active:bg-gray-700">
+            {isAdded ? "Go to Cart" : "Add to Cart"}
           </button>
           <hr className="mt-8 sm:w-4/5" />
           <div className="text-sm text-gray-500 mt-5 flex flex-col gap-1">

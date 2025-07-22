@@ -4,6 +4,7 @@ import { ShopContext } from '../context/Shopcontext.jsx';
 import Title from '../components/Title.jsx';
 import { Productitems } from '../components/Productitems.jsx';
 
+
 export const Collection = () => {
   const { products, search, showSearch } = useContext(ShopContext); // ✅ Correct casing
   const [showFilter, setshowFilter] = useState(true);
@@ -35,11 +36,12 @@ export const Collection = () => {
     let productscopy = products.slice(); // clone original products
 
     // ✅ Search filter (if searchbar is shown & not empty)
-    if (showSearch && search) {
+    if (search.trim() !== "") {
       productscopy = productscopy.filter(item =>
-        item.name.toLowerCase().includes(search.toLowerCase())
+        item.name?.toLowerCase().includes(search.toLowerCase())
       );
     }
+    
 
     // ✅ Category filter
     if (Category.length > 0) {
@@ -137,7 +139,7 @@ export const Collection = () => {
             <Productitems
               key={index}
               name={item.name}
-              id={item.id}
+              id={item._id}
               price={item.price}
               image={item.image}
             />
