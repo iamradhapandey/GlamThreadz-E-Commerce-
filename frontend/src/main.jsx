@@ -2,7 +2,7 @@ import { createRoot } from 'react-dom/client';
 import './index.css';
 import App from './App.jsx';
 import { BrowserRouter } from 'react-router-dom';
-import ShopContextProvider from './context/Shopcontext.jsx'; // ✅ fixed spelling
+import  {ShopContextProvider} from './context/Shopcontext.jsx'; // ✅ fixed spelling
 import ScrollToTop from './components/ScrollToTop';
 
 

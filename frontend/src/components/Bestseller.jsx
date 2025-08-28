@@ -8,9 +8,9 @@ export const Bestseller = () => {
   const [bestseller, setBestseller] = useState([]);
 
   useEffect(() => {
-    const bestproduct = products.filter((item) => item.bestseller); // ✅ case-sensitive
+    const bestproduct = products.filter((item) => item.bestSeller); // ✅ case-sensitive
     setBestseller( bestproduct.slice(0, 5));
-  }, []);
+  }, [products]);
 
   return (
     <div className='my-10'>

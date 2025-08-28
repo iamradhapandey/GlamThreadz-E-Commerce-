@@ -1,11 +1,51 @@
 import React, { useState } from "react"
 import { Form } from "react-router-dom"
+import { ShopContext } from "../context/Shopcontext"
+import { useContext } from "react"
+import axios from "axios"
+import { toast } from "react-toastify"
+import { useEffect } from "react"
 export const Login = () => {
   const [currentState, setCurrentState] = useState("Sign Up")
+  const {token, setToken , navigate, backendUrl} = useContext(ShopContext) ;
+  const [name, setName] = useState("") ;
+  const [email, setEmail] = useState("") ;
+  const [password, setPassword] = useState("") ;
 
   const onSubmitHandler = async(event) => {
     event.preventDefault() ;
+    try {
+      if(currentState === "Sign Up"){
+        const response = await axios.post(backendUrl + '/api/user/register', {name, email, password}) ;
+        if(response.data.success){
+          setToken(response.data.token) ;
+          localStorage.setItem('token', response.data.token)
+        }else{
+          toast.error("Error in registration") ;
+        }
+      }else{
+        const response = await axios.post(backendUrl + '/api/user/login', {email, password}) ;
+        if(response.data.success){
+          setToken(response.data.token);
+          localStorage.setItem('token', response.data.token) ;
+          toast.success("Login Successful") ;
+        }else{
+          toast.error("Invalid Credentials") ;
+        }
+      }
+      
+    } catch (error) {
+      console.log("Error in form submission") ;
+      toast.error("Some error occured") ;
+      
+    }
   }
+
+  useEffect(() => {
+    if(token) {
+      navigate("/") ;
+    }
+  },[token])
   return (
     <form onSubmit = {onSubmitHandler} className="flex flex-col items-center w-[90%] sm:max-w-96 m-auto mt-14 gap-4 text-gray-800">
       <div className="inline-flex items-center gap-2 mb-2 mt-10">
@@ -17,6 +57,8 @@ export const Login = () => {
       ) : (
         <input
           type="text"
+          onChange={(e) => setName(e.target.value)}
+          value = {name}
           className="w-full px-3 py-2 border border-gray-800"
           placeholder="Name"
           required
@@ -24,12 +66,16 @@ export const Login = () => {
       )}
       <input
         type="email"
+        onChange={(e) => setEmail(e.target.value)}
+        value = {email}
         className="w-full px-3 py-2 border border-gray-800"
         placeholder="Email"
         required
       />
       <input
         type="password"
+        onChange={(e) => setPassword(e.target.value)}
+        value = {password}
         className="w-full px-3 py-2 border border-gray-800"
         placeholder="Password"
         required

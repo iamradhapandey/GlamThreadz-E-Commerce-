@@ -77,7 +77,7 @@ export const Collection = () => {
   // ✅ Whenever filters or search change → apply filters
   useEffect(() => {
     applyFilter();
-  }, [Category, subcategory, products, search, showSearch]);
+  }, [Category, subcategory, products, search, showSearch, products]);
 
   // ✅ Whenever sort type changes → sort filtered list
   useEffect(() => {
