@@ -6,7 +6,7 @@ import axios from "axios"
 import { toast } from "react-toastify"
 import { useEffect } from "react"
 export const Login = () => {
-  const [currentState, setCurrentState] = useState("Sign Up")
+  const [currentState, setCurrentState] = useState("Login")
   const {token, setToken , navigate, backendUrl} = useContext(ShopContext) ;
   const [name, setName] = useState("") ;
   const [email, setEmail] = useState("") ;
@@ -20,23 +20,24 @@ export const Login = () => {
         if(response.data.success){
           setToken(response.data.token) ;
           localStorage.setItem('token', response.data.token)
+          toast.success(response.data.msg) ;
         }else{
-          toast.error("Error in registration") ;
+          toast.error(response.data.msg) ;
         }
       }else{
         const response = await axios.post(backendUrl + '/api/user/login', {email, password}) ;
         if(response.data.success){
           setToken(response.data.token);
           localStorage.setItem('token', response.data.token) ;
-          toast.success("Login Successful") ;
+          toast.success(response.data.msg) ;
         }else{
-          toast.error("Invalid Credentials") ;
+          toast.error(response.data.msg) ;
         }
       }
       
     } catch (error) {
-      console.log("Error in form submission") ;
-      toast.error("Some error occured") ;
+      console.log("Error in form submission", error) ;
+      toast.error(error.msg) ;
       
     }
   }
