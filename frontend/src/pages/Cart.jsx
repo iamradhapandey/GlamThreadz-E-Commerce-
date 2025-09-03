@@ -10,27 +10,13 @@ const Cart = () => {
   const [cartData, setCartData] = useState([]);
 
   useEffect(() => {
-    const tempData = [];
-
-    // Loop through each productId in cartItems
-    for (const productId in cartItems) {
-      const sizes = cartItems[productId]; // get size-wise quantity object
-      // Loop through each size
-      for (const size in sizes) {
-        if (sizes[size] > 0) {
-          // Push valid cart items (quantity > 0) into tempData
-          tempData.push({
-            _id: productId,
-            size: size,
-            quantity: sizes[size]
-          });
-        }
+    if(products.length > 0) {
+      const tempData = [] ;
+      for(const items in cartItems){
+        
       }
     }
-
-    // Set the cartData to local state for rendering
-    setCartData(tempData);
-  }, [cartItems]);
+  })
 
   return (
     <div className='border-t pt-14'>
@@ -58,7 +44,7 @@ const Cart = () => {
                     </p>
                     <div className='flex items-center gap-5 mt-2'>
                       <p>{currency}{productData.price}</p> {/* Product price */}
-                      <p className='px-2 sm: px-3 sm:py-1 border bg-slate-50'>{item.size}</p> {/* Selected size */}
+                      <p className='px-2 sm:px-3 sm:py-1 border bg-slate-50'>{item.size}</p> {/* Selected size */}
                     </div>
                   </div>
                 </div></Link>
